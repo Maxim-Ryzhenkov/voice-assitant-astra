@@ -37,6 +37,29 @@ class AssistantAction:
         raise NotImplementedError
 
 
+def greeting():
+    """ Приветствие. """
+    say(random.choice((
+        'Здравствуйте, Мастер.',
+        f'Добрый день, {Config.USER.name}',
+        f'Здравствуйте, {Config.USER.name}.'
+    )))
+
+
+def get_confirm(phrase) -> bool:
+    say(say(f"Не уверена. Вы говорите, {phrase}?"))
+    confirmation = "да" in recognize().split()
+    if confirmation:
+        say("Спасибо за подтверждение. Выполняю.")
+    else:
+        say("Повторите команду еще раз")
+    return confirmation
+
+
+def not_recognized_command(command_text):
+    say(f"Я услышала фразу: '{command_text}'. Я не знаю таких команд.")
+
+
 def _write_text_to_file(text: str, file_path: Path):
     """ Добавить текст в файл. """
     with open(file_path, 'a', encoding='utf-8') as f:
@@ -63,7 +86,7 @@ def shutdown():
         'До новых встреч, {Config.USER.name}.',
         'Не скучайте без меня.'
     )
-    say(random.choice())
+    say(random.choice(response_text))
     sys.exit(0)
 
 

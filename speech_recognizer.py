@@ -7,7 +7,8 @@ import json
 
 import vosk
 import sounddevice as sd
-import speech_recognition
+
+import speech_recognition as sr
 from config import Config
 from speaker import Speaker
 
@@ -41,9 +42,9 @@ class SpeechRecognizerGoogle:
         Распознает отлично, но без интернета не работает.
         """
     def __init__(self):
-        self._recognizer = speech_recognition.Recognizer()
-        self._recognizer.pause_threshold = 0.5
-        self._microphone = speech_recognition.Microphone()
+        self._voice_recognizer = sr.Recognizer()
+        self._voice_recognizer.pause_threshold = 0.5
+        self._microphone = sr.Microphone()
 
     def recognize(self) -> str:
         """ Эта функция будет слушать входящий звук с микрофона и
@@ -51,13 +52,19 @@ class SpeechRecognizerGoogle:
             Если распознавание произошло успешно, то функция вернет текст
             команды в нижнем регистре, иначе - строку "не удалось распознать команду".
         """
+        with self._microphone as mic:
+            self._voice_recognizer.adjust_for_ambient_noise(source=mic, duration=0.5)
+            audio = self._voice_recognizer.listen(source=mic)
         try:
-            with self._microphone as mic:
-                self._recognizer.adjust_for_ambient_noise(source=mic, duration=0.5)
-                audio = self._recognizer.listen(source=mic)
-                return self._recognizer.recognize_google(audio_data=audio, language=Config.RECOGNITION_LANGUAGE).lower()
-        except speech_recognition.UnknownValueError:
-            return "Мне не удалось понять фразу. Повторите, пожалуйста."
+            voice_text = self._voice_recognizer.recognize_google(
+                audio_data=audio, language=Config.RECOGNITION_LANGUAGE).lower()
+            return voice_text
+        except sr.UnknownValueError:
+            # TODO: В будущем эти исключения надо пробрасывать наверх и обрабатывать.
+            return "Не удалось распознать фразу. Повторите, пожалуйста."
+        except sr.RequestError:
+            # TODO: В будущем эти исключения надо пробрасывать наверх и обрабатывать.
+            return "Не удалось распознать фразу. У нас проблемы с интернетом."
 
 
 class SpeechRecognizerVosk:

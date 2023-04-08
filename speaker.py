@@ -1,8 +1,8 @@
 import pyttsx3
 import torch
-import sounddevice as sd
 import time
 from config import Config, Speakers
+import sounddevice as sd
 
 
 class Speaker:
@@ -68,15 +68,17 @@ class SpeakerPyttsx3:
     """ Класс синтезирующий и озвучивающий текст.
         pyttsx3 - голос робота.
     """
+    def __init__(self):
+        self.engine = pyttsx3.init()
+
     def say(self, text: str):
         """ Озвучить переданный текст.
             Этот метод озвучки звучит как 'голос робота',
             то есть довольно коряво, со сбитой дикцией и без эмоций.
             Но озвучивает точно и довольно неплохо.
         """
-        engine = pyttsx3.init()
-        engine.say(text)
-        engine.runAndWait()
+        self.engine.say(text)
+        self.engine.runAndWait()
 
 
 if __name__ == "__main__":

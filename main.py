@@ -2,15 +2,14 @@
 
 """ Пример бота для распознавания речи. """
 
-from speech_recognizer import SpeechRecognizer
+from astra import Astra
 from command_processor import CommandProcessor
 
-
-speech_recognizer = SpeechRecognizer()
-command_processor = CommandProcessor()
+astra = Astra()
 
 
 if __name__ == "__main__":
     while True:
-        user_phrase = speech_recognizer.recognize()
+
+        user_phrase = Astra.listen()
         command_processor.process(user_phrase)
