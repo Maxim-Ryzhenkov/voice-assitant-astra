@@ -69,7 +69,8 @@ class SpeakerPyttsx3:
         pyttsx3 - голос робота.
     """
     def __init__(self):
-        self.engine = pyttsx3.init()
+        self.speaker = pyttsx3.init()
+        self.speaker.setProperty("rate", 190)
 
     def say(self, text: str):
         """ Озвучить переданный текст.
@@ -77,8 +78,12 @@ class SpeakerPyttsx3:
             то есть довольно коряво, со сбитой дикцией и без эмоций.
             Но озвучивает точно и довольно неплохо.
         """
-        self.engine.say(text)
-        self.engine.runAndWait()
+        self.speaker.say(text)
+        self.speaker.runAndWait()
+
+    def shut_up(self) -> None:
+        """ Прервать воспроизведение. """
+        self.speaker.stop()
 
 
 if __name__ == "__main__":

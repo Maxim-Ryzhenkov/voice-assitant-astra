@@ -8,11 +8,33 @@
 """
 
 import webbrowser
+from common_phrases import CommonPhrases
+
+
+class Action:
+    intents = [{"tag": "open_chrome",
+                "patterns": [
+                    "Открой браузер хром",
+                    "Открой гугл браузер",
+                    "Открой браузер"
+                ],
+                "responses": CommonPhrases.va_standard_confirmations
+                },
+               {"tag": "open_firefox",
+                "patterns": [
+                    "Открой браузер фаерфокс",
+                    "Открой браузер мозилла",
+                    "Открой лисицу"
+                ],
+                "responses": CommonPhrases.va_standard_confirmations
+                },
+               ]
 
 
 class WebBrowser:
     """ Класс умеет открывать Chrome и FireFox.
     """
+
     @staticmethod
     def open_chrome() -> None:
         """ Открыть браузер 'Chrome'. """

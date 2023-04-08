@@ -4,11 +4,38 @@
     Для работы этого модуля нужна библиотека 'translate'
     Библиотека предоставляет сервис переводов google translator
     и требует подключения интернета.
-
-
 """
 
 from translate import Translator as Tr
+
+
+class Action:
+    intents = [{"tag": "translate_to_russian",
+                "patterns": [
+                    "Переведи на русский",
+                    "Переведи с английского",
+                    "Как на русском будет",
+                    "Как по русски сказать",
+                    "Как на русский перевести фразу",
+                    "Translate to russian",
+                    "Translate from English",
+                    "How will it be in Russian",
+                    "How to say in Russian"
+                    "How to translate a phrase into Russian"
+                ],
+                "responses": []
+                },
+               {"tag": "translate_to_english",
+                "patterns": [
+                    "Переведи на английский",
+                    "Переведи с русского",
+                    "Как на английском будет",
+                    "Как по английски сказать",
+                    "Как на английский перевести фразу"
+                ],
+                "responses": []
+                },
+               ]
 
 
 class Translator:

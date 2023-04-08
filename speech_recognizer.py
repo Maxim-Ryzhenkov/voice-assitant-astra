@@ -53,7 +53,7 @@ class SpeechRecognizerGoogle:
             команды в нижнем регистре, иначе - строку "не удалось распознать команду".
         """
         with self._microphone as mic:
-            self._voice_recognizer.adjust_for_ambient_noise(source=mic, duration=0.5)
+            self._voice_recognizer.adjust_for_ambient_noise(source=mic, duration=0.2)
             audio = self._voice_recognizer.listen(source=mic)
         try:
             voice_text = self._voice_recognizer.recognize_google(
